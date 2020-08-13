@@ -21,6 +21,9 @@ It is available on DockerHub as:
 
 Deploy to your Kubernetes cluster using the hello-kubernetes.yaml, which contains definitions for the service and deployment objects:
 
+For Minikube, use NodePort as shown below
+
+But for a regular K8s cluster, use LoadBalancer for Service spec type.
 ```yaml
 # hello-kubernetes.yaml
 apiVersion: v1
@@ -28,7 +31,7 @@ kind: Service
 metadata:
   name: hello-kubernetes
 spec:
-  type: LoadBalancer
+  type:	NodePort 
   ports:
   - port: 80
     targetPort: 8080
@@ -79,7 +82,7 @@ kind: Service
 metadata:
   name: hello-kubernetes-custom
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - port: 80
     targetPort: 8080
@@ -153,6 +156,9 @@ If you'd like to build the image yourself, then you can do so as follows. The `b
 Bash
 ```bash
 $ docker build --no-cache --build-arg IMAGE_VERSION="1.8" --build-arg IMAGE_CREATE_DATE="`date -u +"%Y-%m-%dT%H:%M:%SZ"`" --build-arg IMAGE_SOURCE_REVISION="`git rev-parse HEAD`" -f Dockerfile -t "hello-kubernetes:1.8" app
+```
+```
+docker run --rm -it -p 8080:8080 hello-k8s:0.1
 ```
 
 Powershell
